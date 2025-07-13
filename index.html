@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Malla PGB UC – domivallejos1210</title>
+  <style>
+    body {
+      background-color: #fff6fb;
+      font-family: Arial, sans-serif;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      color: #d48abf;
+      text-align: center;
+    }
+    .semestre {
+      display: inline-block;
+      vertical-align: top;
+      width: 200px;
+      margin: 10px;
+    }
+    .semestre h2 {
+      background-color: #f7d8e8;
+      color: #333;
+      padding: 5px;
+      border-radius: 5px;
+    }
+    .ramo {
+      background-color: white;
+      border: 2px solid #d48abf;
+      border-radius: 10px;
+      padding: 10px;
+      margin: 5px 0;
+      cursor: pointer;
+    }
+    .ramo.tachado {
+      background-color: #f5d6e0;
+      text-decoration: line-through;
+    }
+    .bloqueado {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Malla PGB UC – domivallejos1210</h1>
+
+  <div class="semestre">
+    <h2>Semestre 1</h2>
+    <div class="ramo" id="ramo1" onclick="tachar(this)">Fundamentos de Pedagogía</div>
+    <div class="ramo" id="ramo2" onclick="tachar(this)">Aprendizaje y Desarrollo del Escolar</div>
+    <div class="ramo" id="ramo3" onclick="tachar(this)">Práctica I</div>
+  </div>
+
+  <div class="semestre">
+    <h2>Semestre 2</h2>
+    <div class="ramo bloqueado" id="ramo4" onclick="tachar(this)">Psicología del Aprendizaje</div>
+    <div class="ramo bloqueado" id="ramo5" onclick="tachar(this)">Didáctica General</div>
+    <div class="ramo bloqueado" id="ramo6" onclick="tachar(this)">Práctica II</div>
+  </div>
+
+  <div class="semestre">
+    <h2>Semestre 3</h2>
+    <div class="ramo bloqueado" id="ramo7" onclick="tachar(this)">Didáctica de la Matemática I</div>
+    <div class="ramo bloqueado" id="ramo8" onclick="tachar(this)">Didáctica de las Ciencias Naturales I</div>
+    <div class="ramo bloqueado" id="ramo9" onclick="tachar(this)">Práctica III</div>
+  </div>
+
+  <div class="semestre">
+    <h2>Semestre 4</h2>
+    <div class="ramo bloqueado" id="ramo10" onclick="tachar(this)">Didáctica de la Matemática II</div>
+    <div class="ramo bloqueado" id="ramo11" onclick="tachar(this)">Didáctica de las Ciencias Naturales II</div>
+    <div class="ramo bloqueado" id="ramo12" onclick="tachar(this)">Práctica Profesional I</div>
+  </div>
+
+  <div class="semestre">
+    <h2>Semestre 5</h2>
+    <div class="ramo bloqueado" id="ramo13" onclick="tachar(this)">Práctica Profesional II</div>
+  </div>
+
+  <script>
+    const prerrequisitos = {
+      ramo4: ["ramo2"], // Psicología del Aprendizaje depende de Aprendizaje y Desarrollo
+      ramo5: ["ramo4"], // Didáctica General depende de Psicología del Aprendizaje
+      ramo6: ["ramo3"], // Práctica II depende de Práctica I
+      ramo7: ["ramo5"], // Didáctica Matemática I depende de Didáctica General
+      ramo8: ["ramo5"], // Didáctica Ciencias Naturales I depende de Didáctica General
+      ramo9: ["ramo6"], // Práctica III depende de Práctica II
+      ramo10: ["ramo7"], // Didáctica Matemática II depende de Matemática I
+      ramo11: ["ramo8"], // Didáctica Ciencias Naturales II depende de Ciencias Naturales I
+      ramo12: ["ramo9"], // Práctica Profesional I depende de Práctica III
+      ramo13: ["ramo12"], // Práctica Profesional II depende de Profesional I
+    };
+
+    function tachar(elemento) {
+      elemento.classList.toggle('tachado');
+      revisarDesbloqueos();
+    }
+
+    function revisarDesbloqueos() {
+      for (const [ramo, deps] of Object.entries(prerrequisitos)) {
+        const desbloquear = deps.every(id => document.getElementById(id).classList.contains("tachado"));
+        const el = document.getElementById(ramo);
+        if (desbloquear) {
+          el.classList.remove("bloqueado");
+        } else {
+          el.classList.add("bloqueado");
+        }
+      }
+    }
+  </script>
+
+</body>
+</html>
